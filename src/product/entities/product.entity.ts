@@ -14,7 +14,8 @@ export class Product {
     @Column({name: 'product_type'})
     type: string;
 
-    @CreateDateColumn({name: 'created_at'})
+    //This automatically asign the actual date as a createAt
+    @CreateDateColumn({name: 'created_at', type: 'datetime'})
     createdAt: Date
 
     @Column({default: true, name: 'is_active'})
