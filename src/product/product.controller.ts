@@ -1,13 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res } from '@nestjs/common';
 import { CreateProductDTO } from './dto/create_product.dto';
 import { ProductService } from './product.service';
+import { Product } from './entities/product.entity';
 
 @Controller('product')
 export class ProductController {
     constructor(private productService: ProductService) {}
 
+    //This controller calls the method from productService to create a product
     @Post('/create')
-    createProduct(@Body() newUser: CreateProductDTO){
-        return this.productService.createProduct(newUser)
+    createProduct(@Body() newProduct: CreateProductDTO){
+        return this.productService.createProduct(newProduct)
     }
 }

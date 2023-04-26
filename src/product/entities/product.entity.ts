@@ -1,20 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm'
 
-@Entity()
+@Entity({
+    name: 'Products',
+  })
 export class Product {
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @Column({name: 'product_name'})
+    @Column({name: 'name'})
     name: string;
 
-    @Column({name: 'product_price'})
+    @Column({name: 'price'})
     price: number;
 
-    @Column({name: 'product_type'})
+    @Column({name: 'type'})
     type: string;
 
-    //This automatically asign the actual date as a createAt
     @CreateDateColumn({name: 'created_at', type: 'datetime'})
     createdAt: Date
 

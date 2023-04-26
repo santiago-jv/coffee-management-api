@@ -10,25 +10,10 @@ export class ProductService {
         @InjectRepository(Product)
         private productRepository: Repository<Product>
     ) {}
-
-    //Returns a product array
-    findAll(): Promise<Product[]> {
-        return this.productRepository.find()
-    }
     
-    //Returns a specific product
-    findOne(id: number): Promise<Product|null> {
-        return this.productRepository.findOneBy({id})
-    }
-    
+    //Creates a product
     createProduct(product: CreateProductDTO): Promise<Product> {
         const newProduct = this.productRepository.create(product)
         return this.productRepository.save(newProduct)
     }
-
-    //Removes a specific product
-    async remove(id: number): Promise<void> {
-        await this.productRepository.delete(id)
-    }
-
 }
