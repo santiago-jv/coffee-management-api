@@ -11,7 +11,6 @@ export class ProductService {
         private productRepository: Repository<Product>
     ) {}
     
-    //Creates a product
     createProduct(product: CreateProductDTO): Promise<Product> {
         const newProduct = this.productRepository.create(product)
         return this.productRepository.save(newProduct)
