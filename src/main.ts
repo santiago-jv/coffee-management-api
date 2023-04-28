@@ -7,6 +7,7 @@ import { DocumentBuilder } from '@nestjs/swagger/dist';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.setGlobalPrefix('api');
   const options = new DocumentBuilder()
     .setTitle('Coffee Management API')
@@ -41,5 +42,6 @@ async function bootstrap() {
   app.use(helmet());
 
   await app.listen(process.env.PORT ?? 4000);
+  app.setGlobalPrefix('api');
 }
 bootstrap();
