@@ -4,7 +4,7 @@ import { ProductService } from './product.service';
 import { Product } from './entities/product.entity';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('products')
+@ApiTags('Products')
 @Controller('v1/products')
 export class ProductController {
     constructor(private productService: ProductService) {}
