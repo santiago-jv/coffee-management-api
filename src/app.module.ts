@@ -20,6 +20,7 @@ import { Product } from './product/entities/product.entity';
       database: process.env.DB_NAME,
       entities: [User, Product],
       synchronize: true,
+      ssl: {},
     }),
     UserModule,
     ProductModule,
