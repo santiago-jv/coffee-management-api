@@ -25,7 +25,6 @@ export class ProductService {
                 statusCode: HttpStatus.CREATED,
                 message: "Product created succesfully",
                 data: newProduct
-                //this.productRepository.save(newProduct)
             }
             resolve(response)
         })
