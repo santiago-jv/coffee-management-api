@@ -13,9 +13,9 @@ export class ProductService {
     ) {}
     
     getProducts(){
-        return this.productRepository.find()
+        const products = this.productRepository.find()
+        return products
     }
-
 
     createProduct(product: CreateProductDTO): Promise<GeneralResponse<Product>> {
         const newProduct = this.productRepository.create(product)
