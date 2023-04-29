@@ -1,10 +1,11 @@
-import { Exclude } from 'class-transformer';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { UserPasswordReset } from './user-password-reset.entity';
 
 @Entity({
   name: 'users',
@@ -22,9 +23,11 @@ export class User {
   email: string;
 
   @Column()
-  @Exclude()
   password: string;
 
   @CreateDateColumn({name:'created_at'})
   createdAt: Date;
+
+  @OneToMany(() => UserPasswordReset, (userPasswordReset) => userPasswordReset.user)
+  passwordResets: UserPasswordReset[];
 }
