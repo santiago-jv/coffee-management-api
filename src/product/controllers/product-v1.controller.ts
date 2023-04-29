@@ -12,8 +12,12 @@ export class ProductController {
 
   @ApiCreatedResponse({ type: CreateProductResponse })
   @Post()
-  createProduct(@Body() newProduct: CreateProductDTO) {
-    return this.productService.createProduct(newProduct);
+  async createProduct(@Body() newProduct: CreateProductDTO): Promise<CreateProductResponse> {
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Products found',
+      data: await this.productService.createProduct(newProduct)
+    };
   }
 
   @ApiOkResponse({type:ProductListResponse})
@@ -21,7 +25,7 @@ export class ProductController {
   async getProducts(): Promise<ProductListResponse> {
     return {
       statusCode: HttpStatus.OK,
-      message: 'sdfds',
+      message: 'Products found',
       data: await this.productService.getProducts(),
     };
   }

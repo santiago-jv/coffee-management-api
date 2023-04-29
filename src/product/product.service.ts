@@ -3,34 +3,31 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { CreateProductDTO } from './dto/create-product.dto';
+import { ProductResponseDto } from './dto/product-response.dto';
+import { ProductListResponse } from './responses/product-list.response';
 
 interface IProductService {
-    getProducts():Promise<Product[]>
-    createProduct(product: CreateProductDTO): Promise<any>;
+  getProducts(): Promise<ProductResponseDto[]>;
+  createProduct(product: CreateProductDTO): Promise<ProductResponseDto>;
 }
 
 @Injectable()
 export class ProductService implements IProductService {
-    constructor(
-        @InjectRepository(Product)
-        private productRepository: Repository<Product>
-    ) {}
-    
-    getProducts(){
-        const products = this.productRepository.find()
-        return products
-    }
+  constructor(
+    @InjectRepository(Product)
+    private productRepository: Repository<Product>,
+  ) {}
 
-    createProduct(product: CreateProductDTO): Promise<any> {
-        const newProduct = this.productRepository.create(product)
-        this.productRepository.save(newProduct)
-        return new Promise((resolve) => {
-            const response = {
-                statusCode: HttpStatus.CREATED,
-                message: "Product created succesfully",
-                data: [newProduct]
-            }
-            resolve(response)
-        })
-    }
+  async getProducts(): Promise<ProductResponseDto[]> {
+    const products = await this.productRepository.find();
+    return products.map((product) =>
+      ProductResponseDto.mapToResponse(product),
+    );
+  }
+
+  async createProduct(product: CreateProductDTO): Promise<ProductResponseDto> {
+    const newProduct = await this.productRepository.save(product);
+    return ProductResponseDto.mapToResponse(newProduct);
+
+  }
 }

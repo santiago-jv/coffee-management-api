@@ -1,13 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Product } from '../entities/product.entity';
 import { GeneralResponse } from 'src/responses/general.response';
 import { HttpStatus } from '@nestjs/common';
+import { ProductResponseDto } from '../dto/product-response.dto';
 
-export class ProductListResponse implements GeneralResponse<Product[]> {
+export class ProductListResponse implements GeneralResponse<ProductResponseDto[]> {
   @ApiProperty({ example: HttpStatus.OK })
   statusCode: HttpStatus;
   @ApiProperty({ example: 'Products found' })
   message: string;
-  @ApiProperty({ type: [Product] })
-  data: Product[];
+  @ApiProperty({ type: [ProductResponseDto] })
+  data: ProductResponseDto[];
 }
