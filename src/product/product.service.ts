@@ -2,11 +2,15 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
-import { CreateProductDTO } from './dto/create_product.dto';
-import { GeneralResponse } from 'src/interfaces/general_response';
+import { CreateProductDTO } from './dto/create-product.dto';
+
+interface IProductService {
+    getProducts():Promise<Product[]>
+    createProduct(product: CreateProductDTO): Promise<any>;
+}
 
 @Injectable()
-export class ProductService {
+export class ProductService implements IProductService {
     constructor(
         @InjectRepository(Product)
         private productRepository: Repository<Product>
@@ -17,14 +21,14 @@ export class ProductService {
         return products
     }
 
-    createProduct(product: CreateProductDTO): Promise<GeneralResponse<Product>> {
+    createProduct(product: CreateProductDTO): Promise<any> {
         const newProduct = this.productRepository.create(product)
         this.productRepository.save(newProduct)
         return new Promise((resolve) => {
-            const response: GeneralResponse<Product> = {
+            const response = {
                 statusCode: HttpStatus.CREATED,
                 message: "Product created succesfully",
-                data: newProduct
+                data: [newProduct]
             }
             resolve(response)
         })
