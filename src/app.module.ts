@@ -8,9 +8,10 @@ import { ProductModule } from './product/product.module';
 import { Product } from './product/entities/product.entity';
 import { AuthModule } from './auth/auth.module';
 import { EmailSenderModule } from './email-sender/email-sender.module';
-import { UserPasswordReset } from './user/entities/user-password-reset.entity';
+import { UserPasswordReset } from './user-password-reset/entities/user-password-reset.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { UserPasswordResetModule } from './user-password-reset/user-password-reset.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { join } from 'path';
     ProductModule,
     AuthModule,
     EmailSenderModule,
+    UserPasswordResetModule,
   ],
   controllers: [],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import moment from 'moment';
+const moment = require('moment');
 
 export class DateService {
   static hasPassedOneDay(date: Date): boolean {

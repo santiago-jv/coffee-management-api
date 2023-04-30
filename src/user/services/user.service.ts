@@ -4,9 +4,9 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from 'src/auth/auth.dto';
-import { ResetPasswordDto } from '../data-transfer-objects/reset-password.dto';
-import { ResetPasswordService } from './reset-password.service';
+import { ResetPasswordService } from '../../user-password-reset/services/reset-password.service';
 import { EmailSenderService } from 'src/email-sender/email-sender.service';
+import { ResetPasswordDto } from 'src/user-password-reset/data-transfer-objects/reset-password.dto';
 
 @Injectable()
 export class UserService {
@@ -44,5 +44,11 @@ export class UserService {
     }
     const code = await this.resetPasswordService.generateResetPassword(user);
     await this.emailSenderService.sendResetPasswordEmail(user.email, code);
+  }
+
+  public async changePassword(user: User, newPassword: string): Promise<void> {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await this.usersRepository.save(user);
   }
 }

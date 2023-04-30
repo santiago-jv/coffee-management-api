@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { UserPasswordReset } from './user-password-reset.entity';
+import { UserPasswordReset } from '../../user-password-reset/entities/user-password-reset.entity';
 
 @Entity({
   name: 'users',

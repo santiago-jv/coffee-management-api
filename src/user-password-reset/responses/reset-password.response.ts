@@ -10,6 +10,6 @@ export class ResetPasswordResponse
   statusCode: HttpStatus;
   @ApiProperty({ example: 'Email sent' })
   message: string;
-  @ApiProperty({ example: { email: 'santiago@gmail.com' } })
+  @ApiProperty({ example: { email: 'santiagojv.work@gmail.com' } })
   data: ResetPasswordResponseDto;
 }
