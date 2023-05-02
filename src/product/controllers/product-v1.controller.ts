@@ -4,7 +4,7 @@ import { ProductService } from '../product.service';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProductListResponse } from '../responses/product-list.response';
 import { CreateProductResponse } from '../responses/create-product.response';
-import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
+import { IPaginationOptions, Pagination, IPaginationMeta } from 'nestjs-typeorm-paginate';
 import { ProductResponseDto } from '../dto/product-response.dto';
 
 @ApiTags('Products')
@@ -27,16 +27,21 @@ export class ProductController {
   async getPaginatedProducts(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page:number = 1,
     @Query('limit', new DefaultValuePipe(5), ParseIntPipe) limit: number = 1
-    ): Promise<any>{
+    ):Promise<ProductListResponse>{
       const options: IPaginationOptions = {
       limit,
       page,
       }
+      const data = (await this.productService.paginate(options)).items
+      .reduce((a,b)=>a.concat(b),[]) //This sentence is to convert a [][]array to an []array
+      
+      const meta = (await this.productService.paginate(options)).meta
 
       return {
       statusCode: HttpStatus.OK,
       message: 'Products found',
-      data: await this.productService.paginate(options),
+      data: data,
+      metaData: meta
     };
     }
 }

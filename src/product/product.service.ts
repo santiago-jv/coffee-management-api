@@ -28,6 +28,7 @@ export class ProductService implements IProductService {
 
   async paginate(options: IPaginationOptions):Promise<Pagination<ProductResponseDto[]>>{
     const qb = this.productRepository.createQueryBuilder('q');
+
     return paginate<ProductResponseDto[]>(qb as any,options);
   } 
 
