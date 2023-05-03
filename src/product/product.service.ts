@@ -13,23 +13,15 @@ interface IProductService {
 }
 
 @Injectable()
-export class ProductService implements IProductService {
+export class ProductService{
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
   ) {}
 
-  async getProducts(): Promise<ProductResponseDto[]> {
-    const products = await this.productRepository.find();
-    return products.map((product) =>
-      ProductResponseDto.mapToResponse(product)
-    );
-  }
-
-  async paginate(options: IPaginationOptions):Promise<Pagination<ProductResponseDto[]>>{
-    const qb = this.productRepository.createQueryBuilder('q');
-
-    return paginate<ProductResponseDto[]>(qb as any,options);
+  async getItemsPaginated(options: IPaginationOptions):Promise<Pagination<ProductResponseDto[]>>{
+    const qb = this.productRepository.createQueryBuilder('product').where("product.isActive = :isActive", { isActive: true });
+    return (await paginate<ProductResponseDto[]>(qb as any,options));
   } 
 
   async createProduct(product: CreateProductDTO): Promise<ProductResponseDto> {

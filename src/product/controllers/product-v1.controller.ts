@@ -28,20 +28,14 @@ export class ProductController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page:number = 1,
     @Query('limit', new DefaultValuePipe(5), ParseIntPipe) limit: number = 1
     ):Promise<ProductListResponse>{
-      const options: IPaginationOptions = {
-      limit,
-      page,
-      }
-      const data = (await this.productService.paginate(options)).items
-      .reduce((a,b)=>a.concat(b),[]) //This sentence is to convert a [][]array to an []array
-      
-      const meta = (await this.productService.paginate(options)).meta
+      const options: IPaginationOptions = { limit, page }
 
       return {
       statusCode: HttpStatus.OK,
       message: 'Products found',
-      data: data,
-      metaData: meta
+      data: (await this.productService.getItemsPaginated(options)).items
+      .reduce((a,b)=>a.concat(b),[]),//This sentence is to convert a [][]array to an []array
+      metaData: (await this.productService.getItemsPaginated(options)).meta
     };
     }
 }
