@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateProductDTO } from '../dto/create-product.dto';
 import { ProductService } from '../product.service';
 import { ApiCreatedResponse, ApiFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -33,8 +33,8 @@ export class ProductController {
   }
 
   @ApiOkResponse({type: ProductResponseDto})
-  @Delete()
-  async deleteProduct(@Query('productID') productID:string): Promise<DeleteProductResponse> {
+  @Patch()
+  async deleteProduct(@Param('productID') productID:string): Promise<DeleteProductResponse> {
     return {
       statusCode: HttpStatus.OK,
       message: 'Product deleted',
