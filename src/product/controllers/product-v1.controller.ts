@@ -1,9 +1,11 @@
-import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { CreateProductDTO } from '../dto/create-product.dto';
 import { ProductService } from '../product.service';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProductListResponse } from '../responses/product-list.response';
 import { CreateProductResponse } from '../responses/create-product.response';
+import { ProductResponseDto } from '../dto/product-response.dto';
+import { DeleteProductResponse } from '../responses/delete-product.response';
 
 @ApiTags('Products')
 @Controller('v1/products')
@@ -20,13 +22,24 @@ export class ProductController {
     };
   }
 
-  @ApiOkResponse({type:ProductListResponse})
+  @ApiFoundResponse({type:ProductListResponse})
   @Get()
   async getProducts(): Promise<ProductListResponse> {
     return {
       statusCode: HttpStatus.OK,
       message: 'Products found',
       data: await this.productService.getProducts(),
+    };
+  }
+
+  @ApiOkResponse({type: ProductResponseDto})
+  @Delete()
+  async deleteProduct(@Param('productID') productID: string): Promise<DeleteProductResponse> {
+    console.log(productID)
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Product deleted',
+      data: await this.productService.deleteProduct(productID)
     };
   }
 }

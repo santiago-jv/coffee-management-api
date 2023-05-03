@@ -16,7 +16,7 @@ export class ProductService implements IProductService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
-  ) {}
+  ) { }
 
   async getProducts(): Promise<ProductResponseDto[]> {
     const products = await this.productRepository.find();
@@ -30,4 +30,12 @@ export class ProductService implements IProductService {
     return ProductResponseDto.mapToResponse(newProduct);
 
   }
+
+  deleteProduct(id: string): Promise<ProductResponseDto>  {
+    const product = this.productRepository.findOne({
+      where: {id}});
+    return ProductResponseDto.response(product)
+  }
+
+
 }
