@@ -28,13 +28,12 @@ export class ProductService implements IProductService {
   async createProduct(product: CreateProductDTO): Promise<ProductResponseDto> {
     const newProduct = await this.productRepository.save(product);
     return ProductResponseDto.mapToResponse(newProduct);
-
   }
 
   deleteProduct(id: string): Promise<ProductResponseDto>  {
-    const product = this.productRepository.findOne({
-      where: {id}});
-    return ProductResponseDto.response(product)
+    this.productRepository.update(id, {isActive:false});
+    return ProductResponseDto.response(this.productRepository.findOne({
+      where: {id}}))
   }
 
 

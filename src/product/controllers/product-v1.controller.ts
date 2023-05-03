@@ -34,8 +34,7 @@ export class ProductController {
 
   @ApiOkResponse({type: ProductResponseDto})
   @Delete()
-  async deleteProduct(@Param('productID') productID: string): Promise<DeleteProductResponse> {
-    console.log(productID)
+  async deleteProduct(@Query('productID') productID:string): Promise<DeleteProductResponse> {
     return {
       statusCode: HttpStatus.OK,
       message: 'Product deleted',

@@ -18,8 +18,6 @@ export class ProductResponseDto extends CreateProductDTO {
     static async response(product: Promise<Product>): Promise<ProductResponseDto> {
         try {
             const result = await product
-            result.isActive = false
-            console.log(result.name)
             return {
                 id: result.id,
                 name: result.name,
