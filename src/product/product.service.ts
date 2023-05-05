@@ -1,11 +1,10 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
-import { ProductListResponse } from './responses/product-list.response';
-import { Pagination, paginate, IPaginationOptions } from 'nestjs-typeorm-paginate';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 
 interface IProductService {
   getProducts(): Promise<ProductResponseDto[]>;
@@ -19,9 +18,13 @@ export class ProductService{
     private productRepository: Repository<Product>,
   ) {}
 
-  async getItemsPaginated(options: IPaginationOptions):Promise<Pagination<ProductResponseDto[]>>{
-    const qb = this.productRepository.createQueryBuilder('product').where("product.isActive = :isActive", { isActive: true });
-    return (await paginate<ProductResponseDto[]>(qb as any,options));
+  async getProducts({limit, offset}: PaginationQueryDto): Promise<ProductResponseDto[]>{
+    const products = await this.productRepository.find({
+      skip: (offset-1)*limit, take: limit
+    })
+    return products.map((product) =>
+    ProductResponseDto.mapToResponse(product),
+  );
   }
   
   async createProduct(product: CreateProductDTO): Promise<ProductResponseDto> {
