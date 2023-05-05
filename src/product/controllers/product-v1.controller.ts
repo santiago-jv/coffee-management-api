@@ -32,13 +32,22 @@ export class ProductController {
     };
   }
 
-  @ApiOkResponse({type: String})
+  @ApiOkResponse({type: DeleteProductResponse})
   @Patch(':id')
   async deleteProduct(@Param('id') id:string): Promise<DeleteProductResponse> {
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Product deleted',
-      data: this.productService.deleteProduct(id)
-    };
+
+    if (await this.productService.deleteProduct(id)) {
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Product deleted',
+        data: id
+      }
+    } else {
+      return {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'Product does not exist.',
+        data: id
+      }
+    }
   }
 }

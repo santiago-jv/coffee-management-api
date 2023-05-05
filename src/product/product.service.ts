@@ -31,9 +31,13 @@ export class ProductService implements IProductService {
     return ProductResponseDto.mapToResponse(newProduct);
   }
 
-  deleteProduct(id: string): string{
-      this.productRepository.update(id, {isActive:false});
-      return id
+  async deleteProduct(id: string): Promise<Boolean>{
+      if (await this.productRepository.exist({where: {id}})) {
+          this.productRepository.update(id, {isActive:false});
+          return true
+      }else {
+        return false
+      }
   }
 
 
