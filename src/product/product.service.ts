@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
 import { ProductListResponse } from './responses/product-list.response';
+import { DeleteProductResponse } from './responses/delete-product.response';
 
 interface IProductService {
   getProducts(): Promise<ProductResponseDto[]>;
@@ -30,11 +31,12 @@ export class ProductService implements IProductService {
     return ProductResponseDto.mapToResponse(newProduct);
   }
 
-  deleteProduct(id: string): Promise<ProductResponseDto>  {
-    this.productRepository.update(id, {isActive:false});
-    return ProductResponseDto.response(this.productRepository.findOne({
-      where: {id}}))
+  deleteProduct(id: string): string{
+      this.productRepository.update(id, {isActive:false});
+      return id
   }
+
+
 
 
 }

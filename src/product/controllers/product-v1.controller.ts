@@ -32,13 +32,13 @@ export class ProductController {
     };
   }
 
-  @ApiOkResponse({type: ProductResponseDto})
-  @Patch()
-  async deleteProduct(@Param('productID') productID:string): Promise<DeleteProductResponse> {
+  @ApiOkResponse({type: String})
+  @Patch(':id')
+  async deleteProduct(@Param('id') id:string): Promise<DeleteProductResponse> {
     return {
       statusCode: HttpStatus.OK,
       message: 'Product deleted',
-      data: await this.productService.deleteProduct(productID)
+      data: this.productService.deleteProduct(id)
     };
   }
 }

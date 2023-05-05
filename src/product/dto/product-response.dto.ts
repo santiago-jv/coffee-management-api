@@ -14,20 +14,4 @@ export class ProductResponseDto extends CreateProductDTO {
             type: product.type
         }
     }
-
-    static async response(product: Promise<Product>): Promise<ProductResponseDto> {
-        try {
-            const result = await product
-            return {
-                id: result.id,
-                name: result.name,
-                price: result.price,
-                type: result.type
-            }
-        }catch (error) {
-            console.error("Promise rejected with error:", error);
-            throw error;
-        }
-
-    }
 }
