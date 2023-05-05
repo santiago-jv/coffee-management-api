@@ -22,8 +22,8 @@ export class ProductService{
   async getItemsPaginated(options: IPaginationOptions):Promise<Pagination<ProductResponseDto[]>>{
     const qb = this.productRepository.createQueryBuilder('product').where("product.isActive = :isActive", { isActive: true });
     return (await paginate<ProductResponseDto[]>(qb as any,options));
-  } 
-
+  }
+  
   async createProduct(product: CreateProductDTO): Promise<ProductResponseDto> {
     const newProduct = await this.productRepository.save(product);
     return ProductResponseDto.mapToResponse(newProduct);
