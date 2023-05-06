@@ -35,19 +35,10 @@ export class ProductController {
   @ApiOkResponse({type: DeleteProductResponse})
   @Patch(':id')
   async deleteProduct(@Param('id') id:string): Promise<DeleteProductResponse> {
-
-    if (await this.productService.deleteProduct(id)) {
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'Product deleted',
-        data: id
-      }
-    } else {
       return {
         statusCode: HttpStatus.NOT_FOUND,
         message: 'Product does not exist.',
         data: id
       }
-    }
   }
 }

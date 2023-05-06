@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -31,16 +31,11 @@ export class ProductService implements IProductService {
     return ProductResponseDto.mapToResponse(newProduct);
   }
 
-  async deleteProduct(id: string): Promise<Boolean>{
-      if (await this.productRepository.exist({where: {id}})) {
-          this.productRepository.update(id, {isActive:false});
-          return true
-      }else {
-        return false
-      }
-  }
-
-
-
-
+  async deleteProduct(id: string): Promise<void>{
+    const exists = await this.productRepository.exist({where: {id}})
+    if (!exists) {
+      throw new BadRequestException('Product not found');
+     }     
+   await this.productRepository.update(id, {isActive:false});
+   } 
 }
