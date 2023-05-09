@@ -2,10 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CreateProductDTO } from "./create-product.dto";
 import { Product } from "../entities/product.entity";
 
-export class ProductResponseDto extends CreateProductDTO {
+export class ProductResponseDto extends CreateProductDTO{
     @ApiProperty({example:'asdafdaf-asdfas-dfadsa-dasda'})
     id:string
-
     static mapToResponse(product: Product): ProductResponseDto{
         return {
             id: product.id,
@@ -14,4 +13,6 @@ export class ProductResponseDto extends CreateProductDTO {
             type: product.type
         }
     }
+
+
 }
